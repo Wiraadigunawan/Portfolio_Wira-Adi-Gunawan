@@ -49,14 +49,36 @@
 <body class="bg-gray-50 text-gray-800">
 
 <!-- NAVBAR -->
+<!-- NAVBAR -->
+<!-- NAVBAR -->
 <nav class="fixed top-0 left-0 w-full bg-white/70 backdrop-blur-md z-50 shadow-md">
   <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+    <!-- Logo -->
     <a href="#hero" class="font-bold text-xl">MyPortfolio</a>
-    <div class="space-x-6">
+    
+    <!-- Menu Desktop (tampil di md ke atas) -->
+    <div class="hidden md:flex space-x-6">
       <a href="#about" class="hover:text-indigo-600">About</a>
       <a href="#projects" class="hover:text-indigo-600">Projects</a>
       <a href="#experience" class="hover:text-indigo-600">Experience</a>
       <a href="#contact" class="hover:text-indigo-600">Contact</a>
+    </div>
+    
+    <!-- Hamburger Icon (tampil di mobile) -->
+    <button id="menu-toggle" class="md:hidden text-gray-800 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Menu Mobile (tersembunyi secara default, muncul saat toggle) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white/90 backdrop-blur-md shadow-md">
+    <div class="flex flex-col space-y-4 p-4">
+      <a href="#about" class="hover:text-indigo-600" onclick="closeMenu()">About</a>
+      <a href="#projects" class="hover:text-indigo-600" onclick="closeMenu()">Projects</a>
+      <a href="#experience" class="hover:text-indigo-600" onclick="closeMenu()">Experience</a>
+      <a href="#contact" class="hover:text-indigo-600" onclick="closeMenu()">Contact</a>
     </div>
   </div>
 </nav>
@@ -335,21 +357,45 @@
 <!-- SCRIPT -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-AOS.init();
+  AOS.init();
 
-// Animate skill bars
-window.addEventListener('scroll', () => {
-  const skillFills = document.querySelectorAll('.skill-fill');
-  const triggerPoint = window.innerHeight / 1.2;
+  // Animate skill bars (di luar toggle menu)
+  window.addEventListener('scroll', () => {
+    const skillFills = document.querySelectorAll('.skill-fill');
+    const triggerPoint = window.innerHeight / 1.2;
 
-  skillFills.forEach(fill => {
-    const top = fill.getBoundingClientRect().top;
-    if (top < triggerPoint) {
-      fill.style.width = fill.dataset.progress + '%';
-    }
+    skillFills.forEach(fill => {
+      const top = fill.getBoundingClientRect().top;
+      if (top < triggerPoint) {
+        fill.style.width = fill.dataset.progress + '%';
+      }
+    });
   });
-});
+
+  // Toggle menu mobile (ditempatkan di luar scroll event, dijalankan sekali saat load)
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Debug: Pastikan elemen ditemukan
+  console.log('menuToggle:', menuToggle);
+  console.log('mobileMenu:', mobileMenu);
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+      console.log('Hamburger diklik!');  // Debug: Muncul di console saat diklik
+      mobileMenu.classList.toggle('hidden');
+    });
+  } else {
+    console.error('Elemen menu-toggle atau mobile-menu tidak ditemukan!');
+  }
+
+  // Fungsi untuk menutup menu saat link diklik (opsional)
+  function closeMenu() {
+    mobileMenu.classList.add('hidden');
+  }
 </script>
+
+
 
 </body>
 </html>
